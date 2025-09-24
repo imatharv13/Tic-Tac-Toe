@@ -19,7 +19,7 @@
  const resetGame = () => {
     turn0 = true ;
     EnabledBoxes();
-    msgContainer.classList.add("hdie");
+    msgContainer.classList.add("hide");
     
 }
 
@@ -44,6 +44,11 @@
         box.disabled= true;
     }
  }
+ const showDraw = () => {
+    msg.innerText = "It's a Draw!";
+    msgContainer.classList.remove("hide");
+    disabledBoxes();
+};
 
  const EnabledBoxes = () =>{
     for(let box of boxes){
@@ -72,14 +77,27 @@ const checkWinner = () =>{
         if(pos1Val != "" && pos2Val != "" && pos3Val != ""){
             if(pos1Val === pos2Val && pos2Val=== pos3Val){
                 showWinner(pos1Val);
+                    return;
             }
 
         }
     
 
     }
-    
+   
+    // 👉 Draw condition: all boxes are filled and no winner
+    let allFilled = true;
+    boxes.forEach((box) => {
+        if (box.innerText === "") {
+            allFilled = false;
+        }
+    });
+
+    if (allFilled) {
+        showDraw();
+    }
 };
+
 
 
 newGamebtn.addEventListener("click", resetGame);
